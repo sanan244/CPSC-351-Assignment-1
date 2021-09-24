@@ -53,6 +53,5 @@ input2.BT = *bt2;
 
 // output
 
-
 return 0;
 }
