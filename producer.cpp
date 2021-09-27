@@ -4,6 +4,7 @@
 #include <fcntl.h>
 #include <sys/shm.h>
 #include <sys/stat.h>
+#include <sys/mman.h>
 
 struct process{
 int ID;
@@ -26,7 +27,7 @@ int shm_fd;
 
 void *ptr;
 
-shm_fd = shm_open(name,0_CREAT | 0_RDWR, 0666);
+shm_fd = shm_open(name,O_CREAT | 0_RDWR, 0666);
 
 ftruncate(shm_fd, SIZE);
 
