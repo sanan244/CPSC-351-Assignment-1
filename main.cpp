@@ -33,8 +33,6 @@ int  calc_tat(){
 
 // Timer function
 
-
-
 int main(int id1[], int at1[], int bt1[], int id2[], int at2[], int bt2[]){
 //Assign input values to struct input1
 struct process input1;
