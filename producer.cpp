@@ -34,10 +34,10 @@ ftruncate(shm_fd, SIZE);
 
 ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
 
-sprintf(ptr, "%s", message_0);
+sprintf((char*)ptr, "%s", message_0);
 ptr += strlen(message_0);
 
-sprintf(ptr, "%s", message_1);
+sprintf((char *)ptr, "%s", message_1);
 ptr += strlen(message_1);
 
 }
