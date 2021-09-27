@@ -15,7 +15,7 @@ int interupt_cnt;
 int TAT;
 }Q0[10], Q1[10], Q2[10];// Three Queues
 
-int main(){
+int main(int id1[], int at1[], int bt1[], int id2[], int at2[], int bt2){
 
 const int SIZE = 4096;
 
@@ -35,9 +35,9 @@ ftruncate(shm_fd, SIZE);
 ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
 
 sprintf((char*)ptr, "%s", message_0);
-ptr += strlen(message_0);
+*ptr += strlen(message_0);
 
 sprintf((char *)ptr, "%s", message_1);
-ptr += strlen(message_1);
+*ptr += strlen(message_1);
 
 }
