@@ -16,7 +16,7 @@ int shm_fd;
 
 void *ptr;
 
-shm_fd = shm_open(name,D_RDONLY, 0666);
+shm_fd = shm_open(name,O_RDONLY, 0666);
 
 ptr = mmap(0, SIZE, PROT_READ, MAP_SHARED, shm_fd, 0);
 
