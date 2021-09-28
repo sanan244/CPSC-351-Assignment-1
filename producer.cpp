@@ -6,53 +6,84 @@
 #include <sys/stat.h>
 #include <sys/mman.h>
 #include <unistd.h>
+#include <iostream>
 
+using namespace std;
+ /*
 struct process{
-int ID;
-int AT;
-int BT;
-int interupt_cnt;
-int TAT;
+char ID;
+char AT;
+char BT;
+char charerupt_cnt;
+char TAT;
 }Q0[10], Q1[10], Q2[10];// Three Queues
+*/
 
-int main(int id1[], int at1[], int bt1[], int id2[], int at2[], int bt2){
-
-// configure share memory 
+int main(){
+// configure share memory
 const int SIZE = 4096;
 const char *name = "OS";
-
-// create variables for command line input
-int *id1_ = id1;
-int *id2_ = id2;
-
-int *at1_ = at1;
-int *at2_ = at2;
-
-int *bt1_ = bt1;
-int *bt2_ = bt2;
-
-
-int shm_fd;
+char shm_fd;
 void *ptr;
 
+// set input variables
+ char id1_[2];
+ char id2_[2];
+
+ char at1_[2];
+ char at2_[2];
+
+ char bt1_[2];
+ char bt2_[2];
+
+// create command line input
+printf("Enter P1 ID: ");
+cin >> id1_;
+cin.clear();
+printf("Enter P1 AT: ");
+cin >> at1_;
+cin.clear();
+printf("Enter P1 BT: ");
+cin >> bt1_;
+cin.clear();
+printf("Enter P2 ID: ");
+cin >> id2_;
+cin.clear();
+printf("Enter P2 AT: ");
+cin >> at2_;
+cin.clear();
+printf("Enter P2 BT: ");
+cin >> bt2_;
+cin.clear();
+
+printf("...Input ready.\n");
+
 shm_fd = shm_open(name,O_CREAT | O_RDWR, 0666);
+printf("...shm opened.\n");
 
 ftruncate(shm_fd, SIZE);
+printf("...ftruncated.\n");
 
 ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
+printf("...ptr mapped.\n");
 
 // write to the shared memory object
-sprintf((char*)ptr, "%s", message_0);
-*ptr += strlen(message_0);
-
-sprintf((char *)ptr, "%s", message_1);
-*ptr += strlen(message_1);
-
-sprintf((char*)ptr, "%s", id1_);
-sprintf((char *)ptr, "%s", id2_);
+sprintf((char *)ptr, "%s", id1_);
+ptr += strlen(id1_);
 sprintf((char *)ptr, "%s", at1_);
-sprintf((char *)ptr, "%s", at2_);
+ptr += strlen(at1_);
 sprintf((char *)ptr, "%s", bt1_);
-sprintf((char *)ptr, "%s", bt2_);
+ptr += strlen(bt1_);
 
+sprintf((char *)ptr, "%s", id2_);
+ptr += strlen(id2_);
+sprintf((char *)ptr, "%s", at2_);
+ptr += strlen(at2_);
+sprintf((char *)ptr, "%s", bt2_);
+ptr += strlen(bt2_);
+
+
+printf("...Data written to memory.\n");
+printf("Producer complete.\n");
+return 0;
 }
