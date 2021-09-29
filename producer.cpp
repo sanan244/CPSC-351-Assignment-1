@@ -21,7 +21,7 @@ int main(int argc, char *argv[]){
 
 int i = 1;
 int j = 0;
-int arraySize = argc/3; // Divide number of command line arguments by 3
+int arraySize = (argc-1)/3; // Divide number of command line arguments by 3
 process processArray[arraySize]; // Set this number to the size of the array
 
 // Assign ID, AT, and BT to each processArray element
