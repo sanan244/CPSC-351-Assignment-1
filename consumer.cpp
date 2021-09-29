@@ -56,7 +56,7 @@ bool exit = false;
     //only add new ptr if it does not exist
   //  if(find(ptr_input.begin(), ptr_input.end(),(char *)ptr)  == ptr_input.end()){
         printf("%s", (char *)ptr);
-        cout << "\n";
+        std::cout << "\n";
         ptr_input.push_back((char *)ptr);
 
         // turn string input into int
