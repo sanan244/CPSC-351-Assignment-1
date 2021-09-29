@@ -7,17 +7,10 @@
 #include <sys/mman.h>
 #include <unistd.h>
 #include <iostream>
+#include <vector>
 
 using namespace std;
- /*
-struct process{
-char ID;
-char AT;
-char BT;
-char charerupt_cnt;
-char TAT;
-}Q0[10], Q1[10], Q2[10];// Three Queues
-*/
+
 
 int main(){
 // configure share memory
@@ -27,63 +20,57 @@ char shm_fd;
 void *ptr;
 
 // set input variables
- char id1_[2];
- char id2_[2];
+int num;
+ char id1_[3];
+ char at1_[3];
+ char bt1_[3];
 
- char at1_[2];
- char at2_[2];
+ //ask for process count
+ printf("How many processes would you like to add?:");
+ cin >> num;
+ char *previous_ptr;
+ // Loop will create a vector of processes
+ for(int i = 1; i < num + 1; i++){
 
- char bt1_[2];
- char bt2_[2];
-
-// create command line input
-printf("Enter P1 ID: ");
-cin >> id1_;
-cin.clear();
-printf("Enter P1 AT: ");
-cin >> at1_;
-cin.clear();
-printf("Enter P1 BT: ");
-cin >> bt1_;
-cin.clear();
-printf("Enter P2 ID: ");
-cin >> id2_;
-cin.clear();
-printf("Enter P2 AT: ");
-cin >> at2_;
-cin.clear();
-printf("Enter P2 BT: ");
-cin >> bt2_;
-cin.clear();
-
-printf("...Input ready.\n");
+   cout << "Enter ID for process " << i << ":";
+   cin >> id1_;
+   cin.clear();
+   cout << "Enter AT for process " << i << ":";
+   cin >> at1_;
+   cin.clear();
+   cout << "Enter BT for process " << i <<":";
+   cin >> bt1_;
+   cin.clear();
+/*
+   // add input to struct then add struct to back of vector
+   cur_process.ID = id1_;
+   cur_process.AT = at1_;
+   cur_process.BT = bt1_;
+   process_.push_back(cur_process);
+*/
+//printf("...Input ready.\n");
 
 shm_fd = shm_open(name,O_CREAT | O_RDWR, 0666);
-printf("...shm opened.\n");
-
+//printf("...shm opened.\n");
 ftruncate(shm_fd, SIZE);
-printf("...ftruncated.\n");
-
+//printf("...ftruncated.\n");
 ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
 printf("...ptr mapped.\n");
 
 // write to the shared memory object
-sprintf((char *)ptr, "%s", id1_);
-ptr += strlen(id1_);
-sprintf((char *)ptr, "%s", at1_);
-ptr += strlen(at1_);
-sprintf((char *)ptr, "%s", bt1_);
-ptr += strlen(bt1_);
+//ptr += sprintf((char *)ptr, "%s ", previous_ptr);
+//ptr += strlen(id1_);
+ptr += sprintf((char *)ptr, "%s ", id1_);
+//ptr += strlen(id1_);
+ptr += sprintf((char *)ptr, "%s ", at1_);
+//ptr += strlen(at1_);
+ptr += sprintf((char *)ptr, "%s", bt1_);
+//ptr += strlen(bt1_);
+//previous_ptr = id1_ + at1_ + bt1_;
+//cout << "...Previous ptr:" << previous_ptr << "\n";
+printf("...Process written to memory.\n");
+}
 
-sprintf((char *)ptr, "%s", id2_);
-ptr += strlen(id2_);
-sprintf((char *)ptr, "%s", at2_);
-ptr += strlen(at2_);
-sprintf((char *)ptr, "%s", bt2_);
-ptr += strlen(bt2_);
-
-
-printf("...Data written to memory.\n");
 printf("Producer complete.\n");
 return 0;
 }
