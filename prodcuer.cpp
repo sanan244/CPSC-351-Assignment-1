@@ -1,22 +1,59 @@
-std::cout << std::endl;
-std::string pid2{""};
-pid2.push_back(c_array[5]);
-pid2.push_back(c_array[6]);
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <fcntl.h>
+#include <sys/shm.h>
+#include <sys/stat.h>
+#include <sys/mman.h>
+#include <unistd.h>
 
-std::cout << "parsed data is the following: " << std::endl;
-std::cout << "process id: " << pid2 << std::endl;
+#include <sys/mman.h>
 
-std::string a2_time{""};
-a2_time.push_back(c_array[7]);
+int main(int argc, char* argv[]){
+  /* the size (in bytes) of shared memory object */
+const int SIZE = 4096;
+/* name of the shared memory object */
+const char *name = "Shared Memory";
+const char *pid1 = argv[1];
+const char *at1  = argv[2];
+const char *bt1  = argv[3];
+const char *pid2 = argv[4];
+const char *at2  = argv[5];
+const char *bt2  = argv[6];
 
-std::cout << "process arrival time: " << a2_time << std::endl;
+/* shared memory file descriptpr */
+int fd;
+//pointer to shared memory objcet
+char *ptr;
 
-std::string b2_time;
-b2_time.push_back(c_array[8]);
-b2_time.push_back(c_array[9]);
-std::cout << "process burst time: " << b2_time <<std::endl;
+fd = shm_open(name, O_CREAT | O_RDWR, 0666);
+ftruncate(fd, SIZE);
 
-P2.id = pid2;
-P2.at = stoi(a2_time);
-P2.bt = stoi(b2_time);
-std::cout << P2.id <<std::endl;
+ptr = (char*) mmap(0, SIZE, PROT_READ | PROT_WRITE,MAP_SHARED,fd,0);
+
+sprintf(ptr,"%s",pid1);
+
+ptr += strlen(pid1);
+
+sprintf(ptr,"%s",at1);
+
+ptr += strlen(at1);
+
+sprintf(ptr,"%s",bt1);
+ptr += strlen(bt1);
+
+sprintf(ptr,"%s",pid2);
+ptr += strlen(pid2);
+
+sprintf(ptr,"%s",at2);
+ptr += strlen(at2);
+
+sprintf(ptr,"%s",bt2);
+ptr += strlen(bt2);
+
+printf("%s","wrote to shared memmory");
+
+getchar();
+
+return 0;
+}
