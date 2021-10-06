@@ -1,3 +1,28 @@
+#include <iostream>
+#include <string>
+#include <queue>
+
+int main()
+{
+  struct process{
+std::string id{""};
+int at{0};
+int bt{0};
+int qnum{0};
+int exit_time{1}; // starting at extime 1 becuae our for loop were off by 1 so we fixed it doing this
+int num_of_interrupts{0};
+};
+
+struct process P1;
+P1.id = "P1";
+P1.at = 0;
+P1.bt = 40;
+
+struct process P2;
+P2.id = "P2";
+P2.at = 2;
+P2.bt = 10;
+
 std::queue<struct process> p0_queue;
 p0_queue.push(P1);
 p0_queue.push(P2);
@@ -56,7 +81,7 @@ do
 {
   process &current1_process {p1_queue.front()};
   int tq1{16};
-  int rm_time = current1_process.bt;
+
 
 for(int i = 0; i < tq1; i++)
 {
@@ -112,3 +137,6 @@ do
   }
   p2_queue.pop();
 } while (p2_queue.size() > 0);
+
+return 0;
+}
