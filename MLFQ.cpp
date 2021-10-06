@@ -1,28 +1,3 @@
-#include <iostream>
-#include <string>
-#include <queue>
-
-int main()
-{
-  struct process{
-std::string id{""};
-int at{0};
-int bt{0};
-int qnum{0};
-int exit_time{0};
-int num_of_interrupts{0};
-};
-
-struct process P1;
-P1.id = "P1";
-P1.at = 0;
-P1.bt = 40;
-
-struct process P2;
-P2.id = "P2";
-P2.at = 2;
-P2.bt = 10;
-
 std::queue<struct process> p0_queue;
 p0_queue.push(P1);
 p0_queue.push(P2);
@@ -48,14 +23,14 @@ do
   if(current0_process.id == "P1")
   {
 
-    current0_process.exit_time = current0_process.exit_time + (2*tq0); // this accounts for P2 tq in queue 0
+    current0_process.exit_time = current0_process.exit_time + (2*tq0); // the 2 multiplier accounts for P2 tq in queue 0
     current0_process.num_of_interrupts++;
     p1_queue.push(current0_process);
   }
 
   if(current0_process.id == "P2")
   {
-    current0_process.exit_time = current0_process.exit_time + tq0 + 16; // the 16 accounts for P1 tq  in queue 1
+    current0_process.exit_time = current0_process.exit_time + (2*tq0) + 16; // the 2 accounts for P1 in queue 0 and 16 accounts for P1 tq  in queue 1
     current0_process.num_of_interrupts++;
     p1_queue.push(current0_process);
 
@@ -64,6 +39,8 @@ do
 
   std::cout << "updating process: " << current0_process.id << std::endl;
   std::cout << " burst time after queue 0 is: "<< current0_process.bt << std::endl <<std::endl;
+  std::cout << "current exit time of: " << current0_process.exit_time << std::endl << std::endl;
+
   p0_queue.pop();
 } while (p0_queue.size() > 0 );
 
@@ -79,12 +56,15 @@ do
 {
   process &current1_process {p1_queue.front()};
   int tq1{16};
+  int rm_time = current1_process.bt;
+
 for(int i = 0; i < tq1; i++)
 {
   current1_process.bt = current1_process.bt - 1;
 
   if(current1_process.bt == 0)
-  { current1_process.exit_time = current1_process.exit_time + i;
+  {
+     current1_process.exit_time = current1_process.exit_time + i;
 
     std::cout << current1_process.id << " is interrupted " << current1_process.num_of_interrupts
               << " time, completes on queue #1, TAT for "  << current1_process.id << " is "
@@ -97,14 +77,14 @@ for(int i = 0; i < tq1; i++)
 
   if(current1_process.id == "P1")
   {
-    current1_process.exit_time = current1_process.exit_time + tq1;
+    current1_process.exit_time = current1_process.exit_time + tq1 + 2; // the two is for P2 remaind time in queue 1
     current1_process.num_of_interrupts++;
     p2_queue.push(current1_process);
   }
   std::cout << "process " << current1_process.id << " has been interrupted, " << "total of interrupts so far: " << current1_process.num_of_interrupts << std::endl << std::endl;
 
   std::cout << "updating process: " << current1_process.id << std::endl;
-  std::cout << " burst time after queue 0 is: "<< current1_process.bt << std::endl <<std::endl;
+  std::cout << " burst time after queue 1 is: "<< current1_process.bt << std::endl <<std::endl;
   p1_queue.pop();
 
 } while (p1_queue.size() > 0);
@@ -132,6 +112,3 @@ do
   }
   p2_queue.pop();
 } while (p2_queue.size() > 0);
-
-return 0;
-}
