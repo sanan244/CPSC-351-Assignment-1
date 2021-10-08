@@ -27,9 +27,9 @@ int num_process = (num_args/3); //since process come with 3 parameter we divide 
 std::cout << "number of process given: " << num_process <<std::endl;
 std::string str_num_p = std::to_string(num_process);
 str_num_p.push_back(',');
-const char *p_count;
-p_count = str_num_p.c_str();
-std::cout << p_count << std::endl;
+//const char *p_count;
+//p_count = str_num_p.c_str();
+//std::cout << p_count << std::endl;
 std::cout << "number of of commandline arguments: " << num_args << std::endl;
 
 
@@ -43,8 +43,8 @@ ftruncate(fd, SIZE);
 
 ptr = (char*) mmap(0, SIZE, PROT_READ | PROT_WRITE,MAP_SHARED,fd,0);
 
-sprintf(ptr,"%s", p_count);
-ptr+= strlen(p_count);
+//sprintf(ptr,"%s", p_count);
+//ptr+= strlen(p_count);
 
 for(int i = 1;i < argc; i++)
 {
