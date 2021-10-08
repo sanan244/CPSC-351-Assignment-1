@@ -160,7 +160,7 @@ int main()
       current1_process.exit_time = complete_time;
       current1_process.num_of_interrupts++;
       q2.push(current1_process);
-    // }
+    
     std::cout << "process " << current1_process.id << " has been interrupted, "
               << "total of interrupts so far: " << current1_process.num_of_interrupts << std::endl
               << std::endl;
