@@ -6,65 +6,55 @@
 #include <sys/stat.h>
 #include <sys/mman.h>
 #include <unistd.h>
+#include <string>
 #include <iostream>
-#include <vector>
+#include <sys/mman.h>
 
-struct process{
-int ID;
-int AT;
-int BT;
-int interupt_cnt;
-int TAT;
-}Q0[10], Q1[10], Q2[10];// Three Queues
-
-int main(int argc, char *argv[]){
-
-int i = 1;
-int j = 0;
-int arraySize = (argc-1)/3; // Divide number of command line arguments by 3
-process processArray[arraySize]; // Set this number to the size of the array
-
-// Assign ID, AT, and BT to each processArray element
-while(j < arraySize)
+int main(int argc, char* argv[])
 {
-    processArray[j].ID = atoi(argv[i]);
-    i++;
-    processArray[j].AT = atoi(argv[i]);
-    i++;
-    processArray[j].BT = atoi(argv[i]);
-    i++;
-    j++;
-}
-
-// Check for correct data by printing the elements of the array
-for(int i=0; i < arraySize; i++)
-{
-    std::cout << processArray[i].ID << " ";
-    std::cout << processArray[i].AT << " ";
-    std::cout << processArray[i].BT << " ";
-}
-
+  /* the size (in bytes) of shared memory object */
 const int SIZE = 4096;
+/* name of the shared memory object */
+const char *name = "Shared Memory";
 
-const char *name = "OS";
+/* calculates the number of process */
+int num_args = argc -1; // argc include the argument a.out so we subtract it out
+int num_process = (num_args/3); //since process come with 3 parameter we divide by 3 to get corrent number of process given
+std::cout << "number of process given: " << num_process <<std::endl;
+std::string str_num_p = std::to_string(num_process);
+//str_num_p.push_back(',');
+const char *p_count;
+p_count = str_num_p.c_str();
+std::cout << p_count << std::endl;
+std::cout << "number of of commandline arguments: " << num_args << std::endl;
 
-const char *message_0 = "Hello";
-const char *message_1 = "World";
 
-int shm_fd;
+/* shared memory file descriptpr */
+int fd;
+//pointer to shared memory objcet
+char *ptr;
 
-void *ptr;
+fd = shm_open(name, O_CREAT | O_RDWR, 0666);
+ftruncate(fd, SIZE);
 
-shm_fd = shm_open(name,O_CREAT | O_RDWR, 0666);
+ptr = (char*) mmap(0, SIZE, PROT_READ | PROT_WRITE,MAP_SHARED,fd,0);
 
-ftruncate(shm_fd, SIZE);
+const char *seperateInput = ",";
 
-ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
+sprintf(ptr,"%s", p_count);
+ptr+= strlen(p_count);
 
-sprintf((char*)ptr, "%s", message_0);
-ptr += strlen(message_0);
+for(int i = 1;i < argc; i++)
+{
+  sprintf(ptr, "%s", seperateInput);
+  ptr += strlen(seperateInput);
+  sprintf(ptr,"%s",argv[i]);
+  ptr += strlen(argv[i]);
+}
 
-sprintf((char*)ptr, "%s", message_1);
-ptr += strlen(message_1);
+printf("%s","wrote to shared memmory");
 
+getchar();
+
+return 0;
 }
