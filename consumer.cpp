@@ -54,23 +54,19 @@ int main()
   const char *delim{","};
   char *token = strtok(ptr, delim);
   std::cout << "our first process has a pid of: " << token << std::endl;
-  //std::cout << "parsed tokens are the following\n";
 
   while (token != NULL)
   {
     process temp_process;
 
-   // std::cout << token << std::endl;
     temp_process.id = token;
 
     token = strtok(NULL, delim);
 
-    //std::cout << token << std::endl;
     temp_process.at = atoi(token);
 
     token = strtok(NULL, delim);
 
-    //std::cout << token << std::endl;
     temp_process.bt = atoi(token);
     process_vec.push_back(temp_process);
 
@@ -183,8 +179,6 @@ int main()
   {
     process &current2_process{q2.front()};
     int time_left = current2_process.bt;
-
-    //std::cout << "updating process information.......................................\n\n";
 
     for (int i = 0; i < time_left; i++)
     {
