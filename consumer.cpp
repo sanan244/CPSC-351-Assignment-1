@@ -109,21 +109,10 @@ int main()
       std::cout << complete_time << std::endl;
     }
 
-    // if (current0_process.id == "P1")
-    // {
-    // complete_time += tq0;
     current0_process.exit_time = complete_time;
-    // current0_process.exit_time = current0_process.exit_time + (2 * tq0); // the 2 multiplier accounts for P2 tq in queue 0
     current0_process.num_of_interrupts++;
     q1.push(current0_process);
-    // }
 
-    // if (current0_process.id == "P2")
-    // {
-    //   current0_process.exit_time = current0_process.exit_time + (2 * tq0) + 16; // the 2 accounts for P1 in queue 0 and 16 accounts for P1 tq  in queue 1
-    //   current0_process.num_of_interrupts++;
-    //   q1.push(current0_process);
-    // }
     std::cout << "process " << current0_process.id << " has been interrupted, "
               << "total of interrupts so far: " << current0_process.num_of_interrupts << std::endl
               << std::endl;
@@ -159,7 +148,6 @@ int main()
       if (current1_process.bt == 0)
       {
         current1_process.exit_time = complete_time;
-        // current1_process.exit_time = current1_process.exit_time + i;
 
         std::cout << current1_process.id << " is interrupted " << current1_process.num_of_interrupts
                   << " time, completes on queue #1, TAT for " << current1_process.id << " is "
@@ -170,14 +158,9 @@ int main()
       }
     }
 
-    // if (current1_process.id == "P1")
-    // {
-    // complete_time += tq1;
     current1_process.exit_time = complete_time;
-    // current1_process.exit_time = current1_process.exit_time + tq1 + 2; // the two is for P2 remaind time in queue 1
     current1_process.num_of_interrupts++;
     q2.push(current1_process);
-    // }
     std::cout << "process " << current1_process.id << " has been interrupted, "
               << "total of interrupts so far: " << current1_process.num_of_interrupts << std::endl
               << std::endl;
@@ -202,9 +185,7 @@ int main()
       complete_time++;
       if (current2_process.bt == 0)
       {
-        // complete_time += i;
         current2_process.exit_time = complete_time;
-        // current2_process.exit_time = current2_process.exit_time + i;
 
         std::cout << current2_process.id << " is interrupted " << current2_process.num_of_interrupts
                   << " times, completes on queue #2, TAT for " << current2_process.id << " is "
@@ -213,25 +194,6 @@ int main()
     }
     q2.pop();
   } while (q2.size() > 0);
-
-  // do
-  // {
-  //   process &temp0_qp = q0.front();
-  //   std::cout << "executing process: " << temp0_qp.id <<" in Queue 0 for " << tq0 <<"\n\n";
-  //   for (int i = 1; i < (tq0+1); i++)
-  //   {
-  //     temp0_qp.bt -= 1;
-  //     temp0_qp.exit_time += 1;
-  //     if(temp0_qp.bt == 0)
-  //     {
-  //       std::cout << temp0_qp.id <<" is interrupted " << temp0_qp.num_of_interrupts
-  //                 << "time, completes on queue #0, TAT for " << temp0_qp.id << " is "
-  //                 << temp0_qp.exit_time - temp0_qp.at << std::endl;
-  //     }
-  //     q0.
-  //   }
-  //   pop
-  // }
 
   return 0;
 }
