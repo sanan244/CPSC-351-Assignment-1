@@ -11,6 +11,8 @@
 #include <sys/mman.h>
 #include <iostream>
 #include <string>
+#include <algorithm>
+#include <vector>
 
 int main()
 {
@@ -72,6 +74,13 @@ int main()
 
   std::cout << "my consumer recieved " << process_vec.size() << " process." << std::endl;
 
+  std::sort(process_vec.begin(), process_vec.end(), [](const process &lhs, const process &rhs)
+            { return lhs.at < rhs.at; });
+  for (auto it = process_vec.begin(); it != process_vec.end(); it++)
+  {
+    std::cout << it->at << std::endl;
+  }
+
   std::queue<process> q0, q1, q2;
   for (int i = 0; i < process_vec.size(); i++)
   {
@@ -102,11 +111,11 @@ int main()
 
     // if (current0_process.id == "P1")
     // {
-      // complete_time += tq0;
-      current0_process.exit_time = complete_time;
-      // current0_process.exit_time = current0_process.exit_time + (2 * tq0); // the 2 multiplier accounts for P2 tq in queue 0
-      current0_process.num_of_interrupts++;
-      q1.push(current0_process);
+    // complete_time += tq0;
+    current0_process.exit_time = complete_time;
+    // current0_process.exit_time = current0_process.exit_time + (2 * tq0); // the 2 multiplier accounts for P2 tq in queue 0
+    current0_process.num_of_interrupts++;
+    q1.push(current0_process);
     // }
 
     // if (current0_process.id == "P2")
@@ -163,11 +172,11 @@ int main()
 
     // if (current1_process.id == "P1")
     // {
-      // complete_time += tq1;
-      current1_process.exit_time = complete_time;
-      // current1_process.exit_time = current1_process.exit_time + tq1 + 2; // the two is for P2 remaind time in queue 1
-      current1_process.num_of_interrupts++;
-      q2.push(current1_process);
+    // complete_time += tq1;
+    current1_process.exit_time = complete_time;
+    // current1_process.exit_time = current1_process.exit_time + tq1 + 2; // the two is for P2 remaind time in queue 1
+    current1_process.num_of_interrupts++;
+    q2.push(current1_process);
     // }
     std::cout << "process " << current1_process.id << " has been interrupted, "
               << "total of interrupts so far: " << current1_process.num_of_interrupts << std::endl
