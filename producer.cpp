@@ -34,6 +34,7 @@ int main(int argc, char* argv[])
 
   ptr = (char*) mmap(0, SIZE, PROT_READ | PROT_WRITE,MAP_SHARED,fd,0);
 
+  // Adds command line arguments to ptr variable
   for(int i = 1;i < argc; i++)
   {
     sprintf(ptr,"%s",argv[i]);
