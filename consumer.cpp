@@ -174,7 +174,6 @@ int main()
 
   std::cout << "entering queue 2" << std::endl;
 
-  //std::cout << q2.front().id << std::endl;
   do
   {
     process &current2_process{q2.front()};
